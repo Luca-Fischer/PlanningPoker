@@ -1,0 +1,3 @@
+GUI anpassen
+Login erstellen
+Feedback einholen

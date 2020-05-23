@@ -1,0 +1,142 @@
+
+body {
+    font-size: 120%;
+    background: #F8F8FF;
+}
+
+.header {
+    width: 30%;
+    margin: 50px auto 0px;
+    color: white;
+    background: #5F9EA0;
+    text-align: center;
+    border: 1px solid #B0C4DE;
+    border-bottom: none;
+    border-radius: 10px 10px 0px 0px;
+    padding: 20px;
+}
+
+.input-group {
+    margin: 10px 0px 10px 0px;
+}
+
+.input-group label {
+    display: block;
+    text-align: left;
+    margin: 3px;
+}
+
+.input-group input {
+    height: 30px;
+    width: 93%;
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+
+.error {
+    width: 92%;
+    margin: 0px auto;
+    padding: 10px;
+    border: 1px solid #a94442;
+    color: #a94442;
+    background: #f2dede;
+    border-radius: 5px;
+    text-align: left;
+}
+
+.info {
+    width: 92%;
+    margin: 0px auto;
+    padding: 10px;
+    border: 1px solid #989c3e;
+    color: #989c3e;
+    background: #ebead8;
+    border-radius: 5px;
+    text-align: left;
+}
+
+.success {
+    color: #3c763d;
+    background: #dff0d8;
+    border: 1px solid #3c763d;
+    margin-bottom: 20px;
+}
+
+.list-left {
+    margin-left: 40px;
+}
+
+.list-right {
+    margin-left: 40px;
+}
+
+.lists {
+    display: flex;
+    margin-top: 20px;
+}
+
+.btn-light {
+    width: 200px;
+}
+
+.box {
+    width: 300px;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+.session {
+    margin: 200px;
+}
+
+.session_form {
+    margin-top: 50px;
+}
+
+#formbutton {
+    padding: 0;
+    border: none;
+    background: none;
+    font-family: arial, sans-serif;
+    margin: 0;
+}
+
+#buttonAsLink {
+    border: none;
+    background: none;
+}
+
+.settings {
+    color: black;
+}
+
+.settings:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.btn-overview {
+    background-color: #dddddd;
+    border-color: #dddddd;
+    text-decoration: underline black;
+}
+
+#black-border {
+    border-color: black;
+}
