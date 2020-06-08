@@ -1,12 +1,21 @@
 <?php include "partials/html_header.php"; ?>
 <?php include "partials/navbar_view.php"; ?>
 
+<?php
+if (!isset($_SESSION['email'])) {
+    $error_login_first = "Du musst dich erst einloggen";
+    header("Location: login_view.php?login_first=$error_login_first");
+    die();
+}
+?>
+
 <div class="jumbotron">
-    <h2>PLATZHALTER</h2>
+    <h2><?php echo htmlspecialchars($_GET["session_name"]) . "  #" . htmlspecialchars($_GET["session_id"]) ?></h2>
 </div>
 
-<div class="container mt-5">
 
+<div class="container mt-5">
+    <!-- Es werden alle über "$_GET" mitgegebenen Storys und Punkte ausgegeben -->
     <?php
     $points = $_GET['aParam1'];
     $userstorys = $_GET['aParam']; ?>

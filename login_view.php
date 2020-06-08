@@ -1,6 +1,7 @@
 <?php include "partials/html_header.php"; ?>
 <?php include "partials/navbar_view.php"; ?>
 
+<!-- Login-Seite mit Formular zum Einloggen -->
 <div class="container-fluid mt-5">
     <div class="row justify-content-center mt-5">
         <div class="col-sm-12 col-md-6 col-lg-4">

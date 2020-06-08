@@ -1,6 +1,7 @@
 <?php include "partials/html_header.php"; ?>
 <?php include "partials/navbar_view.php"; ?>
 
+<!-- Index-Seite -->
 <div class="jumbotron" id="welcomeJumbo">
     <div class="overlay">
         <div class="container-fluid">
@@ -10,15 +11,6 @@
 </div>
 
 <div class="container mt-5">
-
-    <?php if (isset($_GET["error"])) : ?>
-        <br>
-        <div class="alert alert-danger" role="alert">
-            <?php echo htmlspecialchars($_GET["error"]) ?>
-        </div>
-        <br>
-    <?php endif; ?>
-
     <div class="jumbotron">
         <h1 class="display-4">Willkommen <?php echo $_SESSION['username'] ?></h1>
 

@@ -28,6 +28,7 @@ function get_sessions($db)
     mysqli_stmt_execute($query);
     mysqli_stmt_bind_result($query, $id, $name, $date);
 
+    // die einzelnen Werte (Id, Name, Datum) werden in ein Array geschrieben und mit implode in einen String umgewandelt
     while (mysqli_stmt_fetch($query)) {
         array_push($ids, $id);
         array_push($names, $name);
@@ -41,7 +42,7 @@ function get_sessions($db)
     die();
 }
 
-
+// Der ersteller einer Session kann über diese Ansicht all seinen erstellten Sessions beitreten
 function join_session($db)
 {
     $session_id = $_POST['join_session'];
@@ -49,6 +50,7 @@ function join_session($db)
     $result = mysqli_query($db, $query);
     $user = mysqli_fetch_assoc($result);
     if ($user['user_id'] != $_SESSION['user_id']) {
+        mysqli_close($db);
         $error = "Ungültig";
         header("Location: session_list_view.php?invalid=$error");
         die();
@@ -61,16 +63,19 @@ function join_session($db)
             $_SESSION['session_name'] = $session_name;
             $_SESSION['session_id'] = $session_id;
             $_SESSION['admin'] = 0;
+            mysqli_close($db);
             header("Location: separate_view.php");
             die();
         } else {
+            mysqli_close($db);
             $fatal_error = "Es ist ein nicht erwarteter Fehler mit der Session aufgetreten";
-            header("Location: session_list_view.php?var4=$fatal_error");
+            header("Location: session_list_view.php?invalid=$fatal_error");
             die();
         }
     }
 }
 
+// der ersteller einer Session kann diese auch wieder löschen
 function delete_session($db)
 {
     $value = $_POST['delete_session'];
@@ -78,6 +83,7 @@ function delete_session($db)
     $result = mysqli_query($db, $query);
     $user = mysqli_fetch_assoc($result);
     if ($user['user_id'] != $_SESSION['user_id']) {
+        mysqli_close($db);
         $error = "Ungültig";
         header("Location: session_list_view.php?invalid=$error");
         die();
@@ -90,13 +96,13 @@ function delete_session($db)
 
         $query = "DELETE FROM session_users WHERE session_id = '$value'";
         mysqli_query($db, $query);
-        mysqli_close($db);
 
-        header("Location: session_list_view.php");
-        die();
+        $query = "DELETE FROM storypoints_sumamry WHERE session_id = '$value'";
+        mysqli_query($db, $query);
     }
 }
 
+// werden die einzelnen Userstorys mit Punkten aufgelistet
 function story_overview($db) {
     $points = array();
     $userstorys = array();
@@ -111,12 +117,20 @@ function story_overview($db) {
         array_push($points, $db_point);
         array_push($userstorys, $db_userstory);
     }
+
+    $query = mysqli_prepare($db, "SELECT name FROM session WHERE id = ?");
+    mysqli_stmt_bind_param($query, "s", $session_id);
+    mysqli_stmt_execute($query);
+    $result = mysqli_stmt_get_result($query);
+    $name = mysqli_fetch_array($result, MYSQLI_NUM)[0];
+
     mysqli_close($db);
 
+    // http_build_query: 
     $query_story = http_build_query(array('aParam' => $userstorys));
     $query_points = http_build_query(array('aParam1' => $points));
 
-    header("Location: story_overview_view.php?$query_story&$query_points");
+    header("Location: story_overview_view.php?$query_story&$query_points&session_name=$name&session_id=$session_id");
     die();
 }
 

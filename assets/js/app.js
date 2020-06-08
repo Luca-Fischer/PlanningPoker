@@ -3,6 +3,7 @@ $(document).ready(function () {
 });
 
 /**
+ * https://sweetalert2.github.io/#download
  * Link in Zwischenablage kopieren
  * @param element
  */

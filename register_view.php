@@ -1,7 +1,7 @@
 <?php include "partials/html_header.php"; ?>
 <?php include "partials/navbar_view.php"; ?>
 
-
+    <!-- Formular für die Registirierung -->
     <div class="container-fluid mt-5">
         <div class="row justify-content-center mt-5">
             <div class="col-sm-12 col-md-6 col-lg-4">
@@ -39,7 +39,7 @@
                                 <input type="password" class="form-control" name="password_2" placeholder="Bestätige dein Passwort" id="password_2" autocomplete="off" required>
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-success btn-block" name="reg_user">Login</button>
+                                <button type="submit" class="btn btn-success btn-block" name="reg_user">Registrieren</button>
                             </div>
                             <p class="text-muted">
                                 Du hast schon einen Benutzeraccount? <a href="./login_view.php">Zum Login</a>

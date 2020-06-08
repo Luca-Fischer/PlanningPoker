@@ -17,12 +17,13 @@ if (!isset($_SESSION['email'])) {
     <h3><i class="fas fa-tasks"></i> <?php echo $_SESSION['task'] ?></h3>
     <?php if (!$_GET['start']) : ?>
     <?php if (isset($_GET['notpossible'])) : ?>
-        <div class="alert alert-danger" role="alert"><?php echo $_GET['notpossible'] ?></div>
+        <div class="alert alert-danger" role="alert"><?php echo htmlspecialchars($_GET['notpossible']) ?></div>
     <?php endif; ?>
     <div class="spinner-border" role="status">
         <span class="sr-only">Loading...</span>
     </div>
 
+    <!-- Mitgliederliste in der Session für alle sichtbar -->
     <?php if ($_GET['members']): ?>
         <p class="text-muted"><i class="fas fas-users"></i> Anzahl Mitglieder: <?php echo htmlspecialchars($_GET["total"]); ?></p>
         <p>Mitglieder-Liste</p>
@@ -33,8 +34,9 @@ if (!isset($_SESSION['email'])) {
                 foreach ($members as $member): ?>
                 <li>
                     <?php echo $member; ?>
+                    <!-- Button zum Rauswerfen von Mitgliedern der Session, allerdings nur für den Ersteller sichtbar -->
                     <?php if ($_SESSION['admin'] == 1): ?>
-                        <button type='submit' class='btn btn-sm btn-link' name='kick' value='$member'><i class="far fa-trash-alt"></i> Rauswerfen</button>
+                        <button type='submit' class='btn btn-sm btn-link' name='kick' value='<?php echo $member ?>'><i class="far fa-trash-alt"></i> Rauswerfen</button>
                     <?php endif; ?>
                 </li>
 
@@ -45,6 +47,7 @@ if (!isset($_SESSION['email'])) {
 
     <hr>
 
+    <!-- Link zum teilen, damit neue Benutzer schneller beitreten können, allerdings müssen diese registriert sein -->
     <div class="input-group mt-5 mb-5">
         <input type="text" class="form-control" placeholder="Session Link" id="copy_link_input" aria-label="Session Link" readonly
                value="<?php $folder = explode("/", __DIR__); echo "http://$_SERVER[HTTP_HOST]/". end($folder) . "/join_url.php?session_name=" . $_SESSION['session_name'] . "&session_id=" . $_SESSION['session_id'] ?>">
@@ -61,6 +64,7 @@ if (!isset($_SESSION['email'])) {
         <?php endif; ?>
     <?php endif; ?>
 
+    <!-- Sobald die Abstimmung gestartet wird, werden die Abstimmungskarten sichtbar -->
     <?php if ($_GET["start"] == 1) : ?>
         <form action='poker.php' method='post' class="mt-5">
             <div class="row">

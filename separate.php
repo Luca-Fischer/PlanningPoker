@@ -3,28 +3,23 @@ session_start();
 
 $db = mysqli_connect('localhost', 'root', 'root', 'planningpoker');
 
-if (!isset($_SESSION['email'])) {
-    $error_login_first = "Du musst dich erst einloggen";
-    header("Location: login_view.php?var1=$error_login_first");
-    die();
-}
-
-if (isset($_POST['upload_textfile'])) {
-    upload_textfile($db);
-}
 if (isset($_POST['fileToUpload'])) {
     fileToUpload($db);
 }
 
-function upload_textfile() {
-    $var = 1;
-    header("function: separate_view.php?var=$var");
-}
 
 function fileToUpload($db)
 {
-    $file_name = $_FILES["file_name"]["name"];
+    $myfile = fopen($_FILES["file_name"]["tmp_name"], "r");
+    $file = fread($myfile, filesize($_FILES["file_name"]["tmp_name"]));
+    fclose($myfile);
 
+    $file_array = explode(";", $file);
+
+    $query_story = http_build_query(array('aParam' => $file_array));
+
+
+    // nur der Ersteller der Session kann eine Textdatei auswählen und somit auch die Userstory
     $query = mysqli_prepare($db, "SELECT id FROM session WHERE user_id = ?");
     $search = $_SESSION['user_id'];
     mysqli_stmt_bind_param($query, "s", $search);
@@ -33,16 +28,20 @@ function fileToUpload($db)
 
     while (mysqli_stmt_fetch($query)) {
         if ($id == $_SESSION['session_id']) {
-            $_SESSION['admin'] = 1; // sobald die Session verlassen wird, oder eine neue gejoint wird, muss $_SESSION['admin'] auf '0' gesetzt werden
-            if (!empty($file_name)) {
-                $format = "Correct Format";
-                header("Location: separate_view.php?format=$format&filename=$file_name");
+            $_SESSION['admin'] = 1;
+            // sobald die Session verlassen wird, oder eine neue gejoint wird, muss $_SESSION['admin'] auf '0' gesetzt werden
+            if (!empty($file)) {
+                mysqli_close($db);
+                $format = "Korrektes Format";
+
+                header("Location: separate_view.php?format=$format&$query_story&filename=1");
                 die();
             }
             else {
                 $format = "Keine Datei ausgewählt";
                 $_SESSION['admin'] = 0;
-                header("Location: separate_view.php?format=$format");
+                mysqli_close($db);
+                header("Location: separate_view.php?wrong_format=$format");
                 die();
             }
 

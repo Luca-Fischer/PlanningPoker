@@ -1,6 +1,14 @@
 <?php include "partials/html_header.php"; ?>
 <?php include "partials/navbar_view.php"; ?>
 
+<?php
+if (!isset($_SESSION['email'])) {
+    $error_login_first = "Du musst dich erst einloggen";
+    header("Location: login_view.php?login_first=$error_login_first");
+    die();
+}
+?>
+
 <div class="jumbotron">
     <h2>Storypoints - <?php echo $_SESSION['task'] ?></h2>
 </div>
@@ -11,6 +19,7 @@
     $points = explode(",", htmlspecialchars($_GET['points']));
     $usernames = explode(",", htmlspecialchars($_GET['usernames']));
 
+    // Der Durchschnitt der Punkte wird ausgerechnet
     $average = 0;
     $i = 0;
     foreach ($points as $point) {
@@ -20,7 +29,8 @@
     $average = $average / $i;
     ?>
 
-    <table class="table table-hover">
+        <!-- Alle Namen die für eine Userstory abstimmen werden mit ihren Punkten aufgelistet, sobald alle abgestimmt haben -->
+        <table class="table table-hover">
         <thead>
         <tr>
             <th>Name</th>
@@ -37,6 +47,7 @@
         </tbody>
     </table>
 
+    <!-- Es kann erneut abgestimmt, oder der Durschnittswert gespeichert werden -->
     <p class="text-right mb-0">Durchschnitt: <?php echo $average; ?></p>
     <form action="poker.php" method="post" class="text-right">
         <button type="submit" class="btn btn-success btn-sm" value="<?php echo $average ?>" name="final_result">
@@ -49,7 +60,9 @@
     </form>
 
 
-
+    <!-- Die Seite ruft alle 4 Sekunden die storypoints.php auf, um dort zu überprüfen, ob alle abgestimmt haben
+         Falls ja, werden die Namen mit Punkten über "GET" übergeben
+     -->
     <?php else: ?>
         <br>
         <div class="spinner-border" role="status">
